@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>np-cli by zen-np</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>np-cli</h1>
+        <p>No-problem CLI library written in ES6</p>
+
+        <p class="view"><a href="https://github.com/zen-np/np-cli">View the Project on GitHub <small>zen-np/np-cli</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/zen-np/np-cli/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/zen-np/np-cli/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/zen-np/np-cli">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="np-cli" class="anchor" href="#np-cli"><span class="octicon octicon-link"></span></a>np-cli</h1>
+
+<blockquote>
+<p>No-problem CLI library written in ES6.</p>
+</blockquote>
+
+<h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This is yet another CLI utility library for <a href="http://nodejs.org/">Node</a> but with the added twist of being written in <a href="http://wiki.ecmascript.org/doku.php?id=harmony:harmony">ECMAScript 6</a> syntax to the extent supported by <a href="https://github.com/google/traceur-compiler/">traceur</a> from <a href="https://github.com/google" class="user-mention">@google</a>.</p>
+
+<h2>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<p>If you just want to <strong>use</strong> the library you do not have to install the traceur compiler. The published module is pre-compiled to ECMAScript 5 compatible code.</p>
+
+<p>Simply install using <a href="https://npmjs.org/">npm</a> in the root of your project folder, like any other module:</p>
+
+<div class="highlight highlight-sh"><pre><span class="nv">$ </span>npm i np-cli --save
+</pre></div>
+
+<h2>
+<a name="tinkering" class="anchor" href="#tinkering"><span class="octicon octicon-link"></span></a>Tinkering</h2>
+
+<p>If you want to poke around in the code and see what happens, you currently need to manually recompile in order to test your changes. A rudimentary build-script is included in the source repository.</p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a name="clicursor" class="anchor" href="#clicursor"><span class="octicon octicon-link"></span></a>cli.Cursor()</h3>
+
+<p>Docs...</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">cursor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cli</span><span class="p">.</span><span class="nx">Cursor</span><span class="p">();</span>
+<span class="nx">cursor</span>
+    <span class="p">.</span><span class="nx">bold</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">bg</span><span class="p">.</span><span class="nx">hex</span><span class="p">(</span><span class="s1">'#f00'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">'horrible'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+</pre></div>
+
+<p>Also docs...</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">cursor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cli</span><span class="p">.</span><span class="nx">Cursor</span><span class="p">({</span><span class="nx">stream</span><span class="o">:</span><span class="kc">null</span><span class="p">});</span>
+<span class="kd">var</span> <span class="nx">prefix</span> <span class="o">=</span> <span class="nx">cursor</span>
+    <span class="p">.</span><span class="nx">buffer</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">bold</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">bg</span><span class="p">.</span><span class="nx">hex</span><span class="p">(</span><span class="s1">'#f00'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">'horrible'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">reset</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">flush</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'%s hello'</span><span class="p">,</span> <span class="nx">prefix</span><span class="p">);</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/zen-np">zen-np</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
