@@ -4,8 +4,9 @@
   "description": "No-problem CLI library written in ES6.",
   "main": "index.js",
   "scripts": {
-    "build": "build.sh",
-    "prepublish": "build.sh",
+    "build": "./build.sh",
+    "prepublish": "./build.sh",
+    "pretest": "./build.sh",
     "test": "mocha -R spec"
   },
   "repository": {
@@ -25,7 +26,7 @@
     "url": "https://github.com/zen-np/np-cli/issues"
   },
   "homepage": "http://zen-np.github.io/np-cli",
-  "devDependencies": {
+  "dependencies": {
     "traceur": "0.0.45"
   }
 }

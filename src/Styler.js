@@ -1,10 +1,29 @@
 import {defaults} from './util'
 
-import {systemColors as namedColors} from './colors';
+const ESC = '\x1b[';
 
-const CODE_ESC = '\x1b[';
+const COLORS = {
+	black: 30,
+	red: 31,
+	green: 32,
+	yellow: 33,
+	blue: 34,
+	magenta: 35,
+	cyan: 36,
+	white: 37,
+	grey: 90,
+	gray: 90,
+	brightBlack: 90,
+	brightRed: 91,
+	brightGreen: 92,
+	brightYellow: 93,
+	brightBlue: 94,
+	brightMagenta: 95,
+	brightCyan: 96,
+	brightWhite: 97
+};
 
-const CODE_STYLE = {
+const STYLES = {
 	bold: [1, 22],
 	italic: [3, 23],
 	underline: [4, 24],
@@ -31,10 +50,11 @@ function fromHex(str) {
 }
 
 function wrapCode(code) {
-	return CODE_ESC + code + 'm';
+	return ESC + code + 'm';
 }
 
 export class Styler {
+
 	constructor(cursor, base = 0) {
 		let styler = this;
 
@@ -46,19 +66,20 @@ export class Styler {
 		this.italic_ = false;
 		this.reverse_ = false;
 
-		this.methods_ = Object.keys(CODE_STYLE).concat(Object.keys(namedColors)).concat(['rgb', 'hex', 'color']);
+		this.methods_ = Object.keys(STYLES).concat(Object.keys(COLORS)).concat(['rgb', 'hex', 'color']);
 
-		Object.keys(namedColors).forEach((name) => {
+		Object.keys(COLORS).forEach((name) => {
 			Object.defineProperty(styler, name, {
 				value: () => {
 					let cursor = styler.cursor_,
 					    base   = styler.base_;
-					cursor.write(wrapCode(base + namedColors[name]));
+					cursor.write(wrapCode(base + COLORS[name]));
 					return cursor;
 				}
 			});
 		});
 	}
+
 	rgb(r, g, b) {
 		let cursor = this.cursor_,
 		    base   = this.base_ + 38,
@@ -66,42 +87,49 @@ export class Styler {
 		cursor.write(wrapCode(base + ';5;' + code));
 		return cursor;
 	}
+
 	hex(str) {
 		return this.rgb.apply(this, fromHex(str));
 	}
+
 	color(str) {
 		let cursor = this.cursor_,
 		    base   = this.base_;
 		if (str[0] === '#')
 			return this.hex(str);
-		else if (str in namedColors)
-			cursor.write(wrapCode((str[0].toLowerCase() === str[0] ? base : base + 38) + namedColors[str]));
+		else if (str in COLORS)
+			cursor.write(wrapCode(base + COLORS[str]));
 		return cursor;
 	}
+
 	bold() {
 		let cursor = this.cursor_;
 		this.bold_ = !this.bold_;
-		cursor.write(wrapCode(CODE_STYLE.bold[bold ? 0 : 1]));
+		cursor.write(wrapCode(STYLES.bold[this.bold_ ? 0 : 1]));
 		return cursor;
 	}
+
 	italic() {
 		let cursor = this.cursor_;
 		this.italic_ = !this.italic_;
-		cursor.write(wrapCode(CODE_STYLE.italic[this.italic_ ? 0 : 1]));
+		cursor.write(wrapCode(STYLES.italic[this.italic_ ? 0 : 1]));
 		return cursor;
 	}
+
 	underline() {
 		let cursor = this.cursor_;
 		this.underline_ = !this.underline_;
-		cursor.write(wrapCode(CODE_STYLE.underline[this.underline_ ? 0 : 1]));
+		cursor.write(wrapCode(STYLES.underline[this.underline_ ? 0 : 1]));
 		return cursor;
 	}
+
 	inverse() {
 		let cursor = this.cursor_;
 		this.inverse_ = !this.inverse_;
-		cursor.write(wrapCode(CODE_STYLE.inverse[this.inverse_ ? 0 : 1]));
+		cursor.write(wrapCode(STYLES.inverse[this.inverse_ ? 0 : 1]));
 		return cursor;
 	}
+
 	reset(silent = false) {
 		let cursor = this.cursor_,
 		    base   = this.base_ + 38;

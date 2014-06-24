@@ -41,5 +41,14 @@
 	          .write('warning')
 	          .reset()
 	          .flush();
+	console.log('%s hello', prefix);
+
+	// console.log(require('util').inspect(cursor))
+
+	// cursor
+	// 	.pos()
+	// 	.then(function(pos) {
+	// 		console.log('was on row %s column %s', pos[0], pos[1]);
+	// 	});
 
 })();

@@ -2,7 +2,7 @@ import {defaults} from './util'
 
 import {Styler} from './Styler';
 
-const CODE_ESC = '\x1b[';
+const ESC = '\x1b[';
 
 export class Cursor {
 	constructor(options = {}) {
@@ -10,19 +10,21 @@ export class Cursor {
 
 		this.options_ = defaults({
 			stream: process.stdout,
-			resetCode: CODE_ESC + '0m'
+			resetCode: ESC + '0m'
 		}, options);
 
 		this.buffer_ = [];
-		this.buffering_ = false;
+		this.buffering_ = (this.options_.stream === null);
 
 		this.fg = new Styler(this, 0);
 		this.bg = new Styler(this, 10);
 
-		let methods = cursor.fg.methods_;
-		methods.forEach((name) => {
+		// Create some automagic function aliases to the foreground styler
+		cursor.fg.methods_.forEach((name) => {
 			Object.defineProperty(cursor, name, {
-				value: cursor.fg[name].bind(cursor.fg)
+				get: () => {
+					return cursor.fg[name].bind(cursor.fg)
+				}
 			});
 		});
 	}
@@ -45,6 +47,7 @@ export class Cursor {
 			return this;
 		}
 		else if (stream === null) {
+			this.buffer();
 			return str;
 		}
 		else {
@@ -65,51 +68,82 @@ export class Cursor {
 		return this;
 	}
 
-	pos() {
-
+	beep() {
+		this.write('\x07');
+		return this;
 	}
 
-	goto(x = 0, y = 0) {
-		this.write(CODE_ESC + y + ';' + x + 'H')
+	clear() {
+		this.write(ESC + '2J');
+		this.goto(1, 1);
+		return this;
+	}
+
+	clearLine() {
+		this.write(ESC + '2K' + ESC + '1G');
+		return this;
+	}
+
+	pos() {
+		return new Promise(function(resolve, reject) {
+			process.stdin.resume()
+			process.stdin.setRawMode(true)
+
+			process.stdin.once('data', function (b) {
+				var match = /\[(\d+)\;(\d+)R$/.exec(b.toString())
+				process.stdin.setRawMode(false)
+				process.stdin.pause()
+				if (match) {
+					resolve(match.slice(1,3));
+				}
+			});
+
+			process.stdout.write(ESC + '6n');
+		});
+	}
+
+	goto(x = 1, y = 1) {
+		this.write(ESC + y + ';' + x + 'H');
+		return this;
 	}
 
 	up(n = 1) {
-		this.write(CODE_ESC + n + 'A');
+		this.write(ESC + n + 'A');
 		return this;
 	}
 
 	down(n = 1) {
-		this.write(CODE_ESC + n + 'B');
+		this.write(ESC + n + 'B');
 		return this;
 	}
 
 	right(n = 1) {
-		this.write(CODE_ESC + n + 'C');
+		this.write(ESC + n + 'C');
 		return this;
 	}
 
 	left(n = 1) {
-		this.write(CODE_ESC + n + 'D');
+		this.write(ESC + n + 'D');
 		return this;
 	}
 
 	save() {
-		this.write(CODE_ESC + 's');
+		this.write(ESC + 's');
 		return this;
 	}
 
 	restore() {
-		this.write(CODE_ESC + 'u');
+		this.write(ESC + 'u');
 		return this;
 	}
 
 	show() {
-		this.write(CODE_ESC + '?25h');
+		this.write(ESC + '?25h');
 		return this;
 	}
 
 	hide() {
-		this.write(CODE_ESC + '?25l');
+		this.write(ESC + '?25l');
 		return this;
 	}
 }
