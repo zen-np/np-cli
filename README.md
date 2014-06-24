@@ -2,7 +2,7 @@
 > No-problem CLI library written in ES6.
 
 ##Introduction
-This is yet another CLI utility library for [Node] but with the added twist of being written in [ECMAScript 6] syntax to the extent supported by [traceur][^1].
+This is yet another CLI utility library for [Node] but with the added twist of being written in [ECMAScript 6] syntax to the extent supported by [traceur] and my knownledge of current proposals.
 
 ##Installing
 If you just want to **use** the library you do not have to install the traceur compiler. The published module is pre-compiled to ECMAScript 5 compatible code.
@@ -26,5 +26,3 @@ The most up-to-date documentation can be found on the [project website](http://z
 [traceur]: https://github.com/google/traceur-compiler/
 [npm]: https://npmjs.org/
 [The Unlicense]: http://unlicense.org/
-
-[^1]: And my knowledge of current proposals...
